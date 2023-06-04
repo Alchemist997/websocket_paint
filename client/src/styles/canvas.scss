@@ -1,0 +1,12 @@
+@import './variables';
+
+.canvas-wrap {
+  margin: auto 0;
+  @extend %flex-center;
+  color: $main-color;
+}
+
+canvas {
+  border: 1px solid black;
+  background-color: white;
+}

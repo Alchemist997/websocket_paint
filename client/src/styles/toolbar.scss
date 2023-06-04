@@ -1,0 +1,78 @@
+@import './variables';
+
+$btn-height: 35px;
+
+.toolbar {
+  position: relative;
+  height: $toolbar-height;
+  flex-shrink: 0;
+  background-color: white;
+  @extend %flex-center;
+
+  &__btn {
+    border-radius: 5px;
+    height: $btn-height;
+    width: $btn-height;
+    padding: 5px;
+    @extend %flex-center;
+    flex-shrink: 0;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background-color: transparent;
+    transition: 0.2s;
+
+    &:not(:last-child) {
+      margin-right: 15px;
+    }
+
+    &:hover {
+      background-color: #eee;
+    }
+
+    input {
+      display: none;
+    }
+
+    &.btn-range {
+      cursor: default;
+
+      input {
+        display: block;
+        width: 100%;
+        cursor: pointer;
+      }
+    }
+
+    &.btn-save {
+      justify-self: flex-end;
+    }
+  }
+}
+
+.btn__color {
+  width: 100%;
+  height: 100%;
+}
+
+.btn-wide {
+  height: $btn-height;
+  width: 80px;
+  @extend %flex-center;
+  flex-direction: column;
+  font-size: 14px;
+}
+
+.toolbar__group {
+  @extend %flex-center;
+
+  &:first-child {
+    margin-right: 50px;
+  }
+
+  &-end {
+    position: absolute;
+    right: 20px;
+    top: calc(50% - 17px);
+  }
+}
