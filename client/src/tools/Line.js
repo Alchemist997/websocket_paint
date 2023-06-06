@@ -1,6 +1,6 @@
 import Tool from "./Tool";
-import { bindHandlers, getXCoord, getXYCoords, getYCoord } from './toolsUtils';
-
+import { bindHandlers, getVisualProps, getXCoord, getYCoord, getXYCoords, externalDraw } from './toolsUtils';
+import { sendDrawData } from './../utils';
 
 export default class Line extends Tool {
     constructor(canvas) {
@@ -8,17 +8,24 @@ export default class Line extends Tool {
         bindHandlers(this);
     }
 
-    mouseDownHandler(e) {
-        this.mouseDown = true;
-        this.currentX = getXCoord(e);
-        this.currentY = getYCoord(e);
-        this.ctx.beginPath();
-        this.ctx.moveTo(this.currentX, this.currentY);
-        this.saved = this.canvas.toDataURL();
-    }
-
     mouseUpHandler(e) {
         this.mouseDown = false;
+        sendDrawData('line', getVisualProps(this),
+            {
+                startX: this.startX,
+                startY: this.startY,
+                x: getXCoord(e),
+                y: getYCoord(e)
+            });
+    }
+
+    mouseDownHandler(e) {
+        this.mouseDown = true;
+        this.startX = getXCoord(e);
+        this.startY = getYCoord(e);
+        this.ctx.beginPath();
+        this.ctx.moveTo(this.startX, this.startY);
+        this.saved = this.canvas.toDataURL();
     }
 
     mouseMoveHandler(e) {
@@ -27,18 +34,27 @@ export default class Line extends Tool {
     }
 
 
-    draw(ctx, x, y) {
+    draw(ctx, ...sizeProps) {
         const img = new Image();
         img.src = this.saved;
         img.onload = () => {
             const canvas = this.canvas;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-            ctx.beginPath();
-            ctx.moveTo(this.currentX, this.currentY);
-            ctx.lineTo(x, y);
-            ctx.stroke();
+            drawFigure(ctx, this.startX, this.startY, ...sizeProps);
         };
 
     }
+
+    static drawStatic(ctx, visualProps, ...sizeProps) {
+        externalDraw(() => { drawFigure(ctx, ...sizeProps); }, ctx, visualProps);
+    }
+}
+
+function drawFigure(ctx, startX, startY, ...sizeProps) {
+    ctx.beginPath();
+    ctx.moveTo(startX, startY);
+    ctx.lineTo(...sizeProps);
+    ctx.stroke();
+    ctx.beginPath();
 }

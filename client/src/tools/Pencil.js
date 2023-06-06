@@ -1,5 +1,6 @@
 import Tool from "./Tool";
-import { bindHandlers, getXYCoords } from './toolsUtils';
+import { bindHandlers, getXCoord, getYCoord, getXYCoords, externalDraw, getVisualProps } from './toolsUtils';
+import { sendDrawData } from './../utils';
 
 export default class Pencil extends Tool {
     constructor(canvas) {
@@ -9,19 +10,29 @@ export default class Pencil extends Tool {
 
     mouseUpHandler(e) {
         this.mouseDown = false;
+        sendDrawData('finish');
     }
+
     mouseDownHandler(e) {
         this.mouseDown = true;
         this.ctx.beginPath();
         this.ctx.moveTo(...getXYCoords(e));
     }
+
     mouseMoveHandler(e) {
         if (!this.mouseDown) return;
-        this.draw(this.ctx, ...getXYCoords(e));
+        sendDrawData('pencil', getVisualProps(this),
+            {
+                x: getXCoord(e),
+                y: getYCoord(e)
+            });
     }
 
-    draw(ctx, x, y) {
-        ctx.lineTo(x, y);
-        ctx.stroke();
+    static drawStatic(ctx, visualProps, x, y) {
+        externalDraw(() => {
+            ctx.lineTo(x, y);
+            ctx.stroke();
+        }, ctx, visualProps);
+
     }
 }

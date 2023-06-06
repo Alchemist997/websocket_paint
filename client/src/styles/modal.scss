@@ -1,0 +1,40 @@
+@import './variables';
+
+.modal-bg {
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  @extend %flex-center;
+  background-color: rgba(#000, 0.8);
+}
+
+.modal {
+  @extend %flex-center;
+  flex-direction: column;
+  border-radius: 20px;
+  padding: 22px 30px;
+  background-color: $main-bc;
+
+  input {
+    min-width: 300px;
+    margin-bottom: 25px;
+    padding: 5px 15px;
+    border: 1px solid $main-color;
+    border-radius: 5px;
+    outline: none;
+  }
+
+  button {
+    padding: 8px 15px;
+    border-radius: 10px;
+    background-color: $main-color;
+    color: $main-bc;
+
+    &:hover {
+      background-color: lighten($main-color, 10);
+    }
+  }
+}

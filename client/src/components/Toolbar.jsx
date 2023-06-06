@@ -10,6 +10,7 @@ import SVG from './../assets/img/svg/SVGSprite';
 import '../styles/toolbar.scss';
 
 const Toolbar = observer(() => {
+    const canvas = canvasState.canvas;
 
     const changeColor = e => {
         const value = e.target.value;
@@ -18,10 +19,10 @@ const Toolbar = observer(() => {
     };
 
     const download = () => {
-        const dataUrl = canvasState.canvas.toDataURL();
+        const dataUrl = canvas.toDataURL();
         const link = document.createElement('a');
         link.href = dataUrl;
-        link.download = canvasState.sessionid + '.jpg';
+        link.download = canvasState.sessionID + '.jpg';
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -34,7 +35,7 @@ const Toolbar = observer(() => {
                     className="toolbar__btn"
                     title='Карандаш'
                     onClick={() => {
-                        toolState.setTool(new Pencil(canvasState.canvas));
+                        toolState.setTool(new Pencil(canvas));
                     }}
                 >
                     <SVG name='pencil' />
@@ -44,7 +45,7 @@ const Toolbar = observer(() => {
                     className="toolbar__btn"
                     title='Линия'
                     onClick={() => {
-                        toolState.setTool(new Line(canvasState.canvas));
+                        toolState.setTool(new Line(canvas));
                     }}>
                     <SVG name='line' />
                 </button>
@@ -53,7 +54,7 @@ const Toolbar = observer(() => {
                     className="toolbar__btn"
                     title='Круг'
                     onClick={() => {
-                        toolState.setTool(new Circle(canvasState.canvas));
+                        toolState.setTool(new Circle(canvas));
                     }}>
                     <SVG name='circle' />
                 </button>
@@ -62,7 +63,7 @@ const Toolbar = observer(() => {
                     className="toolbar__btn"
                     title='Прямоугольник'
                     onClick={() => {
-                        toolState.setTool(new Rect(canvasState.canvas));
+                        toolState.setTool(new Rect(canvas));
                     }}>
                     <SVG name='rect' />
                 </button>

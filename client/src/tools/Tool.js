@@ -1,4 +1,4 @@
-import ToolState from './../store/toolState';
+import ToolState from '../store/toolState';
 
 export default class Tool {
     constructor(canvas) {
@@ -16,7 +16,6 @@ export default class Tool {
     set strokeColor(color) {
         this.ctx.strokeStyle = color;
     }
-
     set lineWidth(width) {
         this.ctx.lineWidth = width;
     }
