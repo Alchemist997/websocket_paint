@@ -36,16 +36,24 @@ const Canvas = observer(() => {
             socket.send(JSON.stringify({
                 method: 'connected',
                 id: params.id,
+                dimensions: { width, height },
                 username: canvasState.username
             }));
         };
 
         socket.onmessage = (evt) => {
             let msg = JSON.parse(evt.data);
+
             switch (msg.method) {
                 case 'connected':
                     console.log(`${msg.username} присоединился`);
+                    if (canvasState.dimensions) break;
+                    canvasState.setDimensions(
+                        msg.dimensions.width,
+                        msg.dimensions.height
+                    );
                     break;
+
                 case 'draw':
                     drawHandler(msg);
                     break;
@@ -93,7 +101,12 @@ const Canvas = observer(() => {
 
     return (
         <div className="canvas-wrap">
-            <canvas onMouseDown={mouseDownHandler} ref={canvasRef} width={width} height={height} />
+            <canvas
+                onMouseDown={mouseDownHandler}
+                ref={canvasRef}
+                width={canvasState.dimensions?.width ?? 600}
+                height={canvasState.dimensions?.height ?? 400}
+            />
             {modal ? <Modal closeHandler={setModal} /> : null}
         </div>
     );
