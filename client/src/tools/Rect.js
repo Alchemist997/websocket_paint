@@ -4,7 +4,7 @@ import { sendDrawData } from './../utils';
 
 export default class Rect extends Tool {
     constructor(canvas) {
-        super(canvas);
+        super(canvas, 'rect');
         bindHandlers(this);
     }
 

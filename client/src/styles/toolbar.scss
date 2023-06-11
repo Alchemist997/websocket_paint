@@ -26,7 +26,8 @@ $btn-height: 35px;
       margin-right: 15px;
     }
 
-    &:hover {
+    &:hover,
+    &.active {
       background-color: #eee;
     }
 

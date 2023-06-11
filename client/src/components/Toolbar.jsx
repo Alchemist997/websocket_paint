@@ -7,6 +7,7 @@ import Rect from "../tools/Rect";
 import Line from "../tools/Line";
 import Circle from "../tools/Circle";
 import SVG from './../assets/img/svg/SVGSprite';
+import { getIsActive } from './../tools/toolsUtils';
 import '../styles/toolbar.scss';
 
 const Toolbar = observer(() => {
@@ -32,7 +33,7 @@ const Toolbar = observer(() => {
         <header className="toolbar">
             <div className='toolbar__group'>
                 <button
-                    className="toolbar__btn"
+                    className={`toolbar__btn ${getIsActive('pencil')}`}
                     title='Карандаш'
                     onClick={() => {
                         toolState.setTool(new Pencil(canvas));
@@ -42,7 +43,7 @@ const Toolbar = observer(() => {
                 </button>
 
                 <button
-                    className="toolbar__btn"
+                    className={`toolbar__btn ${getIsActive('line')}`}
                     title='Линия'
                     onClick={() => {
                         toolState.setTool(new Line(canvas));
@@ -51,7 +52,7 @@ const Toolbar = observer(() => {
                 </button>
 
                 <button
-                    className="toolbar__btn"
+                    className={`toolbar__btn ${getIsActive('circle')}`}
                     title='Круг'
                     onClick={() => {
                         toolState.setTool(new Circle(canvas));
@@ -60,7 +61,7 @@ const Toolbar = observer(() => {
                 </button>
 
                 <button
-                    className="toolbar__btn"
+                    className={`toolbar__btn ${getIsActive('rect')}`}
                     title='Прямоугольник'
                     onClick={() => {
                         toolState.setTool(new Rect(canvas));
@@ -120,7 +121,7 @@ const Toolbar = observer(() => {
                     <SVG name='download_img' />
                 </button>
             </div>
-        </header>
+        </header >
     );
 });
 

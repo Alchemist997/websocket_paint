@@ -4,7 +4,7 @@ import { sendDrawData } from './../utils';
 
 export default class Line extends Tool {
     constructor(canvas) {
-        super(canvas);
+        super(canvas, 'line');
         bindHandlers(this);
     }
 

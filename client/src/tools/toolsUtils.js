@@ -1,3 +1,5 @@
+import ToolState from './../store/toolState';
+
 export function bindHandlers(context) {
     context.canvas.onmousemove = context.mouseMoveHandler.bind(context);
     context.canvas.onmousedown = context.mouseDownHandler.bind(context);
@@ -34,4 +36,8 @@ export function getVisualProps(scope) {
         strokeStyle: scope.ctx.strokeStyle,
         fillStyle: scope.ctx.fillStyle
     };
+}
+
+export function getIsActive(toolName) {
+    return ToolState.tool?.toolName === toolName ? 'active' : '';
 }

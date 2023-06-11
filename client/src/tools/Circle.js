@@ -4,7 +4,7 @@ import { sendDrawData } from './../utils';
 
 export default class Circle extends Tool {
     constructor(canvas) {
-        super(canvas);
+        super(canvas, 'circle');
         bindHandlers(this);
     }
 

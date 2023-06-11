@@ -4,7 +4,7 @@ import { sendDrawData } from './../utils';
 
 export default class Pencil extends Tool {
     constructor(canvas) {
-        super(canvas);
+        super(canvas, 'pencil');
         bindHandlers(this);
     }
 
