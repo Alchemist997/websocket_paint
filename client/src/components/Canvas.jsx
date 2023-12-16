@@ -63,6 +63,7 @@ const Canvas = observer(() => {
             }
         };
 
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [params.id, canvasState.username]);
 
     function drawHandler(msg) {
