@@ -23,14 +23,34 @@ app.ws('/', (ws) => {
                 break;
         }
     });
+
+    ws.on('close', () => {
+        const id = ws.id;
+        const username = ws.username;
+        sessions[id]?.users?.delete(username);
+        broadcastConnection(ws, {
+            id,
+            username,
+            method: 'disconnected',
+            users: [...(sessions[id]?.users ?? [])],
+        });
+    })
 });
 
 app.listen(PORT, () => { console.log('Server started on port', PORT); });
 
 function connectedHandler(ws, msg) {
     const id = msg.id;
+    const username = msg.username;
     ws.id = id;
-    if (!sessions[id]) sessions[id] = { dimensions: { ...msg.dimensions } };
+    ws.username = username;
+    if (!sessions[id]) {
+        sessions[id] = {
+            dimensions: { ...msg.dimensions },
+            users: new Set([username])
+        };
+    }
+    sessions[id]?.users?.add(username);
     broadcastConnection(ws, msg);
 }
 
@@ -38,9 +58,12 @@ function broadcastConnection(ws, msg) {
     const id = msg.id;
 
     for (const client of aWss.clients) {
-        if (client.id === id) {
-            if (msg.method === 'connected') msg.dimensions = { ...sessions[id].dimensions };
-            client.send(JSON.stringify(msg));
+        if (client.id !== id) continue
+
+        if (msg.method === 'connected') {
+            msg.dimensions = { ...sessions[id].dimensions };
+            msg.users = [...(sessions[id]?.users ?? [])]
         }
+        client.send(JSON.stringify(msg));
     }
 }

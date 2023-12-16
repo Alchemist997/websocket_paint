@@ -7,6 +7,7 @@ const CanvasState = makeAutoObservable({
     undoList: [],
     redoList: [],
     username: '',
+    users: [],
     dimensions: null,
 
     setCanvas(canvas) {
@@ -35,6 +36,10 @@ const CanvasState = makeAutoObservable({
 
     setUsername(username) {
         this.username = username;
+    },
+
+    setUsers(users) {
+        this.users = users;
     },
 
     setDimensions(width, height) {

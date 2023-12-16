@@ -9,6 +9,17 @@ $btn-height: 35px;
   background-color: white;
   @extend %flex-center;
 
+  &__users-list {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 10px;
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    background-color: #c0c0c0;
+  }
+
   &__btn {
     border-radius: 5px;
     height: $btn-height;
@@ -22,11 +33,19 @@ $btn-height: 35px;
     background-color: transparent;
     transition: 0.2s;
 
+    &:disabled {
+      cursor: default;
+
+      svg {
+        fill: #c0c0c0;
+      }
+    }
+
     &:not(:last-child) {
       margin-right: 15px;
     }
 
-    &:hover,
+    &:not(:disabled):hover,
     &.active {
       background-color: #eee;
     }
@@ -69,6 +88,12 @@ $btn-height: 35px;
 
   &:first-child {
     margin-right: 50px;
+  }
+
+  &-start {
+    position: absolute;
+    left: 20px;
+    top: calc(50% - 17px);
   }
 
   &-end {

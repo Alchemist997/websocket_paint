@@ -47,11 +47,19 @@ const Canvas = observer(() => {
             switch (msg.method) {
                 case 'connected':
                     console.log(`${msg.username} присоединился`);
+                    canvasState.setUsers(msg.users);
+
                     if (canvasState.dimensions) break;
+
                     canvasState.setDimensions(
                         msg.dimensions.width,
                         msg.dimensions.height
                     );
+                    break;
+
+                case 'disconnected':
+                    canvasState.setUsers(msg.users);
+                    console.log(`${msg.username} отключился`);
                     break;
 
                 case 'draw':

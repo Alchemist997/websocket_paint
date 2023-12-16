@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import toolState from "../store/toolState";
 import canvasState from "../store/canvasState";
@@ -11,6 +11,8 @@ import { getIsActive } from './../tools/toolsUtils';
 import '../styles/toolbar.scss';
 
 const Toolbar = observer(() => {
+    const [isShowUsersList, setIsShowUsersList] = useState(false);
+    const isMultiplayer = canvasState.users.length > 1;
     const canvas = canvasState.canvas;
 
     const changeColor = e => {
@@ -31,6 +33,22 @@ const Toolbar = observer(() => {
 
     return (
         <header className="toolbar">
+            {isShowUsersList &&
+                <div className="toolbar__users-list">
+                    {canvasState.users.map(el => <div>{el}</div>)}
+                </div>
+            }
+
+            <div className='toolbar__group toolbar__group-start'>
+                <button
+                    className={`toolbar__btn ${isShowUsersList ? 'active' : ''}`}
+                    title='Пользователи'
+                    onClick={() => { setIsShowUsersList(prev => !prev) }}
+                >
+                    <SVG name='users' />
+                </button>
+            </div>
+
             <div className='toolbar__group'>
                 <button
                     className={`toolbar__btn ${getIsActive('pencil')}`}
@@ -98,6 +116,7 @@ const Toolbar = observer(() => {
             <div className='toolbar__group toolbar__group-end'>
                 <button
                     className="toolbar__btn"
+                    disabled={isMultiplayer}
                     title='Отменить'
                     onClick={() => {
                         canvasState.undo();
@@ -107,6 +126,7 @@ const Toolbar = observer(() => {
 
                 <button
                     className="toolbar__btn"
+                    disabled={isMultiplayer}
                     title='Повторить'
                     onClick={() => {
                         canvasState.redo();
