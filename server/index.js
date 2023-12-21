@@ -62,8 +62,14 @@ function broadcastConnection(ws, msg) {
 
         if (msg.method === 'connected') {
             msg.dimensions = { ...sessions[id].dimensions };
-            msg.users = [...(sessions[id]?.users ?? [])]
+            msg.users = [...(sessions[id]?.users ?? [])];
+            msg.picture = sessions[id].picture;
         }
+
+        if (msg.method === 'draw') {
+            sessions[id].picture = msg.picture;
+        }
+
         client.send(JSON.stringify(msg));
     }
 }

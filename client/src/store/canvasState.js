@@ -46,6 +46,17 @@ const CanvasState = makeAutoObservable({
         this.dimensions = { width, height };
     },
 
+    setInitialPicture(dataUrl) {
+        const canvas = this.canvas;
+        const ctx = canvas.getContext('2d');
+        const img = new Image();
+        img.src = dataUrl;
+        img.onload = () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        };
+    },
+
     undo() {
         const canvas = this.canvas;
         const ctx = canvas.getContext('2d');

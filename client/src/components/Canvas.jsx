@@ -55,6 +55,8 @@ const Canvas = observer(() => {
                         msg.dimensions.width,
                         msg.dimensions.height
                     );
+
+                    canvasState.setInitialPicture(msg.picture);
                     break;
 
                 case 'disconnected':
